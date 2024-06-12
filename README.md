@@ -53,3 +53,14 @@ struct ContentView: View {
     }
 }
 ```
+
+### ButtonStyle
+
+```swift
+import TrendyGradients
+
+Button("Gradient Button") {
+  print("Button tapped")
+}.gradientButton(colors: (Color.pink, Color.purple))
+  .foregroundColor(.white)
+```
