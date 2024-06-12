@@ -5,6 +5,7 @@ import SwiftUI
 
 // MARK: - TrendyGradients
 
+/// A view modifier that applies a gradient to the background of the view.
 public struct TrendyGradients: ViewModifier {
   private let colors: (Color, Color)
 
@@ -27,6 +28,10 @@ public struct TrendyGradients: ViewModifier {
 
 // MARK: - AnimatedTrendyGradients
 
+// TODO: rework the modifier API to something like: `.trendyGradients(colors: (Color.pink, Color.purple), animation: .easeInOut(duration: 2))`
+
+/// A view modifier that applies an animated gradient to the background of the view.
+/// It animates between two sets of colors.
 public struct AnimatedTrendyGradients: ViewModifier {
 
   // MARK: Lifecycle
