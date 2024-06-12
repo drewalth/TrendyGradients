@@ -12,7 +12,7 @@ Add the following to your `Package.swift` file:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/drewalth/TrendyGradients.git", from: "1.0.0")
+    .package(url: "https://github.com/drewalth/TrendyGradients.git", from: "2.0.0")
 ]
 ```
 
@@ -31,7 +31,7 @@ struct ContentView: View {
                 .background(TrendyGradient())
                 .cornerRadius(10)
                 .padding()
-        }.trendyGradients(colors: (Color.pink, Color.purple))
+        }.gradient(colors: (Color.pink, Color.purple))
     }
 }
 ```
@@ -49,7 +49,7 @@ struct ContentView: View {
                 .background(TrendyGradient())
                 .cornerRadius(10)
                 .padding()
-        }.animatedTrendyGradients(colors1: [Color.red, Color.blue], colors2: [Color.green, Color.yellow])
+        }.animatedGradient(colors1: [Color.red, Color.blue], colors2: [Color.green, Color.yellow])
     }
 }
 ```
