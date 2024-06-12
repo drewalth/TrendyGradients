@@ -3,10 +3,47 @@
 
 import SwiftUI
 
-// MARK: - TrendyGradients
+// MARK: - GradientButtonStyle
+
+public struct GradientButtonStyle: ButtonStyle {
+
+  // MARK: Lifecycle
+
+  public init(colors: (Color, Color), animated: Bool = false) {
+    self.colors = colors
+    self.animated = animated
+
+    colorSetOne = [colors.0, colors.1]
+    colorSetTwo = [colors.1, colors.0]
+  }
+
+  // MARK: Public
+
+  public func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding()
+      .background(
+        RoundedRectangle(cornerRadius: 10)
+          .fill(
+            LinearGradient(
+              gradient: Gradient(colors: [colors.0, colors.1]),
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing)
+              .opacity(configuration.isPressed ? 0.8 : 1)))
+  }
+
+  // MARK: Private
+
+  private let colors: (Color, Color)
+  private let animated: Bool
+  private let colorSetOne: [Color]
+  private let colorSetTwo: [Color]
+}
+
+// MARK: - TrendyGradientViewModifier
 
 /// A view modifier that applies a gradient to the background of the view.
-public struct TrendyGradients: ViewModifier {
+public struct TrendyGradientViewModifier: ViewModifier {
   private let colors: (Color, Color)
 
   public init(colors: (Color, Color)) {
@@ -78,12 +115,16 @@ public struct AnimatedTrendyGradients: ViewModifier {
 
 }
 
+// MARK: - View Extensions
+
+// MARK: General View Extensions
+
 extension View {
-  public func trendyGradients(colors: (Color, Color)) -> some View {
-    modifier(TrendyGradients(colors: colors))
+  public func gradient(colors: (Color, Color)) -> some View {
+    modifier(TrendyGradientViewModifier(colors: colors))
   }
 
-  public func animatedTrendyGradients(
+  public func animatedGradient(
     colors1: [Color] = [Color.red, Color.blue],
     colors2: [Color] = [Color.green, Color.yellow])
     -> some View
@@ -92,24 +133,51 @@ extension View {
   }
 }
 
+// MARK: - Gradient Button Styles Extensions
+
+extension View {
+  public func gradientButton(colors: (Color, Color)) -> some View {
+    buttonStyle(GradientButtonStyle(colors: colors))
+  }
+}
+
+
 #if DEBUG
-#Preview("TrendyGradients") {
+#Preview("Gradient - Basic") {
   VStack {
     Text("Trendy Gradients")
       .font(.title)
       .padding()
       .foregroundColor(.white)
-
-  }.trendyGradients(colors: (Color.pink, Color.purple))
+  }.gradient(colors: (Color.pink, Color.purple))
 }
 
-#Preview("AnimatedTrendyGradients") {
+#Preview("Animated Gradient") {
   VStack {
-    Text("Animated Trendy Gradients")
-      .font(.title)
-      .padding()
-      .foregroundColor(.white)
+    VStack {
+      Text("Animated Gradients")
+        .font(.title)
+        .padding()
+        .foregroundColor(.white)
 
-  }.animatedTrendyGradients()
+    }.animatedGradient()
+      .padding(.bottom, 24)
+    VStack {
+      Text("Animated Gradients")
+        .font(.title)
+        .padding()
+        .foregroundColor(.white)
+
+    }.animatedGradient(colors1: [.cyan, .yellow], colors2: [.yellow, .cyan])
+  }
+}
+
+#Preview("Gradient Button Style - Default") {
+  VStack {
+    Button("Gradient Button") {
+      print("Button tapped")
+    }.gradientButton(colors: (Color.pink, Color.purple))
+      .foregroundColor(.white)
+  }
 }
 #endif
